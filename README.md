@@ -8,3 +8,6 @@ In this task the robot will approach a wall and follow its countour
 - Iván López: @ivrolan
 - Alejandro Moncalvillo: @Amglega
 - Unai Sanz: @USanz
+
+# Practice scheme
+![scheme](./wall_follower_scheme.png)
