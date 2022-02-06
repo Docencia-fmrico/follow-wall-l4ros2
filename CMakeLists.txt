@@ -23,6 +23,7 @@ find_package(sensor_msgs REQUIRED)
 
 set(dependencies
 	rclcpp
+  rclcpp_lifecycle
   std_msgs
   sensor_msgs
 )
