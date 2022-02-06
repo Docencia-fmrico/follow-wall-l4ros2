@@ -27,8 +27,11 @@ set(dependencies
   sensor_msgs
 )
 
+add_executable(follow_wall src/follow_wall_exec.cpp)
+ament_target_dependencies(follow_wall ${dependencies})
+
 install(TARGETS
-	# TODO- program_name to execute, with 2 nodes 
+	follow_wall
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib
 	RUNTIME DESTINATION lib/${PROJECT_NAME}
