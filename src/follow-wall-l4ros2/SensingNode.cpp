@@ -5,9 +5,9 @@ using std::placeholders::_1;
 SensingNode::SensingNode(const std::string& name) : Node(name)
 {
     laser_sub_ = create_subscription<sensor_msgs::msg::LaserScan>(
-      "/scan_raw", 1, std::bind(&SensingNode::callback, this, _1));
+      "scan_raw", rclcpp::QoS(1).reliable(), std::bind(&SensingNode::callback, this, _1));
 
-    pub_ = create_publisher<example_interfaces::msg::Int8MultiArray>("/follow_wall/data", 10);
+    pub_ = create_publisher<example_interfaces::msg::Int8MultiArray>("follow_wall_data", 10);
 }
 
 
