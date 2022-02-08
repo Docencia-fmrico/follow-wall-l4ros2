@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(follow-wall-l4ros2)
+project(follow_wall_interfaces)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,28 +17,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(rclcpp_lifecycle REQUIRED)
-find_package(sensor_msgs REQUIRED)
-
-set(dependencies
-	rclcpp
-  rclcpp_lifecycle
-  std_msgs
-  sensor_msgs
-)
-
-add_executable(follow_wall src/follow_wall_exec.cpp)
-ament_target_dependencies(follow_wall ${dependencies})
-
-install(TARGETS
-	follow_wall
-	ARCHIVE DESTINATION lib
-	LIBRARY DESTINATION lib
-	RUNTIME DESTINATION lib/${PROJECT_NAME}
-)
-
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -51,5 +32,10 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+find_package(rosidl_default_generators REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/LaserInfo.msg"
+)
 
 ament_package()
