@@ -10,4 +10,4 @@ In this task the robot will approach a wall and follow its countour
 - Unai Sanz: @USanz
 
 # Practice scheme
-![scheme](./wall_follower_scheme.png)
+![scheme](./wall_follower_diagram.png)
