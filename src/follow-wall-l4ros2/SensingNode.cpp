@@ -17,19 +17,22 @@
 
 using std::placeholders::_1;
 
-SensingNode::SensingNode(const std::string& name) : Node(name) {
+SensingNode::SensingNode(const std::string & name)
+: Node(name)
+{
   laser_sub_ = create_subscription<sensor_msgs::msg::LaserScan>(
-      "scan_raw", rclcpp::QoS(1).reliable(),
-      std::bind(&SensingNode::callback, this, _1));
+    "scan_raw", rclcpp::QoS(1).reliable(),
+    std::bind(&SensingNode::callback, this, _1));
 
   pub_ = create_publisher<example_interfaces::msg::Int8MultiArray>(
-        "follow_wall_data", 10);
+    "follow_wall_data", 10);
 }
 
 
-int get_val_from_d(int d) {
+int get_val_from_d(int d)
+{
   if (d < SAFE_DISTANCE - INTERVAL) {
-      return LESS;
+    return LESS;
   }
 
   if (d > SAFE_DISTANCE + INTERVAL) {
@@ -40,20 +43,21 @@ int get_val_from_d(int d) {
 }
 
 void SensingNode::callback(
-  const sensor_msgs::msg::LaserScan::SharedPtr msg) const {
+  const sensor_msgs::msg::LaserScan::SharedPtr msg) const
+{
   // the equation is angle_min + angle_increment * index = angle_to_measure
   RCLCPP_INFO(this->get_logger(), "Got msg\n");
   int index_front = (0 - msg->angle_min) / msg->angle_increment;
   int index_right = (-M_PI_2 - msg->angle_min) / msg->angle_increment;
   int index_back_right =
-  (msg->angle_min - msg->angle_min) / msg->angle_increment;
+    (msg->angle_min - msg->angle_min) / msg->angle_increment;
 
   // with a blue, green and red line.
 
   float front_d = msg->ranges[index_front];
   float right_d = msg->ranges[index_right];
   float back_right_d = msg->ranges[index_back_right];
-  
+
   example_interfaces::msg::Int8MultiArray msg_to_send;
 
   msg_to_send.data.push_back(get_val_from_d(front_d));
