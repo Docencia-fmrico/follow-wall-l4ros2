@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(follow-wall-l4ros2)
+project(follow_wall_l4ros2)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
