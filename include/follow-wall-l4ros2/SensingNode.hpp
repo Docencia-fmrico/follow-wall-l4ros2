@@ -1,0 +1,3 @@
+#ifndef FOLLOW_WALL_L4ROS2__SENSINGNODE_HPP_
+#define FOLLOW_WALL_L4ROS2__SENSINGNODE_HPP_
+// Copyright 2022 <@ivrolan>
