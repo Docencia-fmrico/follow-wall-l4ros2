@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(follow-wall-l4ros2)
+project(follow_wall_l4ros2)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -23,7 +23,7 @@ find_package(rclcpp_lifecycle REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
 set(dependencies
-	rclcpp
+  rclcpp
   rclcpp_lifecycle
   std_msgs
   sensor_msgs
@@ -33,10 +33,10 @@ add_executable(follow_wall src/follow_wall_exec.cpp)
 ament_target_dependencies(follow_wall ${dependencies})
 
 install(TARGETS
-	follow_wall
-	ARCHIVE DESTINATION lib
-	LIBRARY DESTINATION lib
-	RUNTIME DESTINATION lib/${PROJECT_NAME}
+  follow_wall
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
 
