@@ -11,8 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#ifndef FOLLOW_WALL_L4ROS2__SENSINGNODE_HPP_
-#define FOLLOW_WALL_L4ROS2__SENSINGNODE_HPP_
+#ifndef FOLLOW_WALL__SENSINGNODE_HPP_
+#define FOLLOW_WALL__SENSINGNODE_HPP_
 
 #include <string>
 #include "rclcpp/rclcpp.hpp"
@@ -41,4 +41,4 @@ private:
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr laser_sub_;
   rclcpp::Publisher<example_interfaces::msg::Int8MultiArray>::SharedPtr pub_;
 };
-#endif  // FOLLOW_WALL_L4ROS2__SENSINGNODE_HPP_
+#endif  // FOLLOW_WALL__SENSINGNODE_HPP_
