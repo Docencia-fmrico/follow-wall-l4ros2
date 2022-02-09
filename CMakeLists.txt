@@ -22,9 +22,9 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(example_interfaces REQUIRED)
-  
+
 set(dependencies
-	rclcpp
+  rclcpp
   rclcpp_lifecycle
   std_msgs
   sensor_msgs
@@ -59,11 +59,11 @@ target_link_libraries(test_sensing ${PROJECT_NAME})
 
 
 install(TARGETS
-	follow_wall
+  follow_wall
   test_sensing
-	ARCHIVE DESTINATION lib
-	LIBRARY DESTINATION lib
-	RUNTIME DESTINATION lib/${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
 
@@ -75,7 +75,7 @@ if(BUILD_TESTING)
   # the following line skips cpplint (only works in a git repo)
   # uncomment the line when this package is not in a git repo
   #set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
+ament_lint_auto_find_test_dependencies()
 endif()
 
 ament_package()

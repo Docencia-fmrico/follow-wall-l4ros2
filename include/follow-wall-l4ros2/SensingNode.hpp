@@ -1,5 +1,5 @@
-#ifndef FOLLOW_WALL_L4ROS2_INCLUDE_FOLLOW_WALL_L4ROS2_SENSINGNODE_HPP_
-#define FOLLOW_WALL_L4ROS2_INCLUDE_FOLLOW_WALL_L4ROS2_SENSINGNODE_HPP_
+#ifndef FOLLOW_WALL_L4ROS2__SENSINGNODE_HPP_
+#define FOLLOW_WALL_L4ROS2__SENSINGNODE_HPP_
 // Copyright 2022 <@ivrolan>
 #include <string>
 #include "rclcpp/rclcpp.hpp"
@@ -26,4 +26,5 @@ class SensingNode : public rclcpp::Node {
     rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr laser_sub_;
     rclcpp::Publisher<example_interfaces::msg::Int8MultiArray>::SharedPtr pub_;
 };
-#endif  // FOLLOW_WALL_L4ROS2_INCLUDE_FOLLOW_WALL_L4ROS2_SENSINGNODE_HPP_
+#endif  // FOLLOW_WALL_L4ROS2__SENSINGNODE_HPP_
+
