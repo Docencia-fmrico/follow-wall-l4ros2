@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>follow-wall-l4ros2</name>
+  <name>follow-wall</name>
   <version>0.0.0</version>
   <description>Package to follow the wall's contour with the Tiago robot</description>
   <maintainer email="i.lopezb.2019@alumnos.urjc.es">ivrolan</maintainer>
