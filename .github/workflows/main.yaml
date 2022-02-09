@@ -23,13 +23,22 @@ jobs:
       - name: build and test
         uses: ros-tooling/action-ros-ci@0.2.3
         with:
-          package-name: follow-wall-l4ros2
+          package-name: follow_wall_l4ros2
+          import-token: ${{secrets.GITHUB_TOKEN}}
           target-ros2-distro: foxy
+          colcon-defaults: |
+            {
+              "test": {
+                "ctest-args": [
+                "-LE", "copyright"
+                ]
+              }
+            }
       - name: Codecov
         uses: codecov/codecov-action@v1.1.0
         with:
           file: ros_ws/lcov/total_coverage.info
           flags: unittests
           name: codecov-umbrella
-          # yml: ./codecov.yml
+          yml: ./codecov.yml
           fail_ci_if_error: false
