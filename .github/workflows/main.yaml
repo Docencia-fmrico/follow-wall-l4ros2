@@ -30,7 +30,7 @@ jobs:
             {
               "test": {
                 "ctest-args": [
-                "-LE copyright"
+                "-LE", "copyright"
                 ]
               }
             }
