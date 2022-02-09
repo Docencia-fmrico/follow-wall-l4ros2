@@ -27,13 +27,13 @@ jobs:
           import-token: ${{secrets.GITHUB_TOKEN}}
           target-ros2-distro: foxy
           colcon-defaults: |
-        {
-          "test": {
-            "ctest-args": [
+            {
+              "test": {
+                "ctest-args": [
                 "-LE copyright"
-            ]
-          }
-        }
+                ]
+              }
+            }
       - name: Codecov
         uses: codecov/codecov-action@v1.1.0
         with:
