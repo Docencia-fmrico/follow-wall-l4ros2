@@ -1,6 +1,6 @@
 // Copyright 2022 <@ivrolan>
 #include <memory>
-#include "follow-wall-l4ros2/SensingNode.hpp"
+#include "follow-wall/SensingNode.hpp"
 
 int main(int argc, char * argv[]) {
   rclcpp::init(argc, argv);
