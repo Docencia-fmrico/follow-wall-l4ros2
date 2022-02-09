@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 #include <memory>
-#include "follow-wall-l4ros2/SensingNode.hpp"
+#include "follow-wall/SensingNode.hpp"
 
 int main(int argc, char * argv[])
 {

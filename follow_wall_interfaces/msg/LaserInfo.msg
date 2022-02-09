@@ -1,6 +1,6 @@
 int8 front
+int8 front_right
 int8 right
-int8 back_45
 
 
 int8 CLOSE=-1

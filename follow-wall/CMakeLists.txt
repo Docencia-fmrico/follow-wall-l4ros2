@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
-project(follow_wall_l4ros2)
+
+project(follow-wall)
+
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -39,13 +41,13 @@ install(DIRECTORY include/
 )
 
 add_library(${PROJECT_NAME} SHARED
-  src/follow-wall-l4ros2/SensingNode.cpp
-  src/follow-wall-l4ros2/ActuationNode.cpp
+  src/follow-wall/SensingNode.cpp
+  src/follow-wall/ActuationNode.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
 
-add_executable(follow_wall src/follow_wall_exec.cpp)
+add_executable(follow_wall src/follow_wall_main.cpp)
 ament_target_dependencies(follow_wall ${dependencies})
 
 add_executable(test_sensing src/test_sensing_node.cpp)
