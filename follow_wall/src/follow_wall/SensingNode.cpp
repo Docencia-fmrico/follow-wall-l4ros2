@@ -64,13 +64,13 @@ void SensingNode::callback(
 
   float front_d = get_min_dist(msg, index_front);
   float right_d = get_min_dist(msg, index_right);
-  float back_right_d = get_min_dist(msg, index_front_right);
+  float front_right_d = get_min_dist(msg, index_front_right);
 
   example_interfaces::msg::Int8MultiArray msg_to_send;
 
   msg_to_send.data.push_back(get_val_from_d(front_d));
   msg_to_send.data.push_back(get_val_from_d(right_d));
-  msg_to_send.data.push_back(get_val_from_d(back_right_d));
+  msg_to_send.data.push_back(get_val_from_d(front_right_d));
 
   pub_->publish(msg_to_send);
 
