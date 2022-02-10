@@ -23,7 +23,7 @@ jobs:
       - name: build and test
         uses: ros-tooling/action-ros-ci@0.2.3
         with:
-          package-name: follow_wall
+          package-name: follow_wall follow_wall_interfaces
           import-token: ${{secrets.GITHUB_TOKEN}}
           target-ros2-distro: foxy
           colcon-defaults: |
