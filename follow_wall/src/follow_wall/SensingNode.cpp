@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <algorithm>
 #include <string>
 #include "follow_wall/SensingNode.hpp"
 
@@ -42,6 +43,13 @@ int get_val_from_d(int d)
   return IN_RANGE;
 }
 
+float get_min_dist(const sensor_msgs::msg::LaserScan::SharedPtr data, int data_index)
+{
+  return std::min(
+    std::min(data->ranges[data_index], data->ranges[data_index + 1]),
+    data->ranges[data_index - 1]);
+}
+
 void SensingNode::callback(
   const sensor_msgs::msg::LaserScan::SharedPtr msg) const
 {
@@ -49,14 +57,14 @@ void SensingNode::callback(
   RCLCPP_INFO(this->get_logger(), "Got msg\n");
   int index_front = (0 - msg->angle_min) / msg->angle_increment;
   int index_right = (-M_PI_2 - msg->angle_min) / msg->angle_increment;
-  int index_back_right =
-    (msg->angle_min - msg->angle_min) / msg->angle_increment;
+  int index_front_right =
+    (-M_PI_4 - msg->angle_min) / msg->angle_increment;
 
   // with a blue, green and red line.
 
-  float front_d = msg->ranges[index_front];
-  float right_d = msg->ranges[index_right];
-  float back_right_d = msg->ranges[index_back_right];
+  float front_d = get_min_dist(msg, index_front);
+  float right_d = get_min_dist(msg, index_right);
+  float back_right_d = get_min_dist(msg, index_front_right);
 
   example_interfaces::msg::Int8MultiArray msg_to_send;
 
