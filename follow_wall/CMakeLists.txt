@@ -25,7 +25,7 @@ find_package(rclcpp_lifecycle REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(example_interfaces REQUIRED)
-find_package(follow_wall_interfaces)
+find_package(follow_wall_interfaces REQUIRED)
 
 set(dependencies
   rclcpp
