@@ -22,7 +22,7 @@ int main(int argc, char * argv[])
 
   auto node = std::make_shared<ActuationNode>("actuation_node");
   
-  rclcpp::Rate loop_rate(100ms);
+  rclcpp::Rate loop_rate(50ms);
 
   while (rclcpp::ok()) {
 
@@ -35,9 +35,4 @@ int main(int argc, char * argv[])
 
   rclcpp::shutdown();
 
-
-
-
-  rclcpp::spin(node);
-  rclcpp::shutdown();
 }

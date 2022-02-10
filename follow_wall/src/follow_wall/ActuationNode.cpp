@@ -25,6 +25,7 @@ ActuationNode::ActuationNode(const std::string & name)
 : Node(name)
 {
   vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
+  //vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/key_op", 10);
   laser_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
     "/follow_wall/data", 10, std::bind(&ActuationNode::laser_callback, this, _1));
 }
