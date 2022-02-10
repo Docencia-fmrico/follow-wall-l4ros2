@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <string>
-#include "follow-wall/SensingNode.hpp"
+#include "follow_wall/SensingNode.hpp"
 
 using std::placeholders::_1;
 

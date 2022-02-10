@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#ifndef FOLLOW_WALL_L4ROS2__ACTUATIONNODE_HPP_
-#define FOLLOW_WALL_L4ROS2__ACTUATIONNODE_HPP_
+#ifndef FOLLOW_WALL__ACTUATIONNODE_HPP_
+#define FOLLOW_WALL__ACTUATIONNODE_HPP_
 
-#endif  // FOLLOW_WALL_L4ROS2__ACTUATIONNODE_HPP_
+#endif  // FOLLOW_WALL__ACTUATIONNODE_HPP_

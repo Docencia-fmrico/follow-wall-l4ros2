@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(follow-wall)
+project(follow_wall)
 
 
 # Default to C99
@@ -41,20 +41,20 @@ install(DIRECTORY include/
 )
 
 add_library(${PROJECT_NAME} SHARED
-  src/follow-wall/SensingNode.cpp
-  src/follow-wall/ActuationNode.cpp
+  src/follow_wall/SensingNode.cpp
+  src/follow_wall/ActuationNode.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
 
-add_executable(follow_wall src/follow_wall_main.cpp)
-ament_target_dependencies(follow_wall ${dependencies})
+add_executable(follow_wall_main src/follow_wall_main.cpp)
+ament_target_dependencies(follow_wall_main ${dependencies})
 
 add_executable(test_sensing src/test_sensing_node.cpp)
 ament_target_dependencies(test_sensing ${dependencies})
 
 
-target_link_libraries(follow_wall ${PROJECT_NAME})
+target_link_libraries(follow_wall_main ${PROJECT_NAME})
 
 target_link_libraries(test_sensing ${PROJECT_NAME})
 
@@ -62,7 +62,7 @@ target_link_libraries(test_sensing ${PROJECT_NAME})
 
 
 install(TARGETS
-  follow_wall
+follow_wall_main
   test_sensing
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
