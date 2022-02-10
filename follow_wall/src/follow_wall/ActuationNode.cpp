@@ -21,16 +21,14 @@
 
 using std::placeholders::_1;
 
-ActuationNode::ActuationNode(const std::string& name) : Node(name) {
-    vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
-    laser_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
-      "/follow_wall/data", 10, std::bind(&ActuationNode::laser_callback, this, _1));
+ActuationNode::ActuationNode(const std::string & name)
+: Node(name)
+{
+  vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
+  laser_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
+    "/follow_wall/data", 10, std::bind(&ActuationNode::laser_callback, this, _1));
 }
 
-void ActuationNode::laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg) {
-  return;
-}
+void ActuationNode::laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg) {}
 
-void ActuationNode::do_work() {
-  return;
-}
+void ActuationNode::do_work() {}

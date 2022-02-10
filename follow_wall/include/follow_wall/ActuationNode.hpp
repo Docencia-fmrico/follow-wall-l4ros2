@@ -23,18 +23,19 @@
 #define SAFE_DISTANCE 0.4
 #define INTERVAL 0.05
 
-class ActuationNode : public rclcpp::Node {
-    public:
-        ActuationNode(const std::string& name);
+class ActuationNode : public rclcpp::Node
+{
+public:
+  explicit ActuationNode(const std::string & name);
 
-        void do_work();
+  void do_work();
 
-    private:
-        void laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg);
+private:
+  void laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg);
 
-    private:
-        rclcpp::Subscription<follow_wall_interfaces::msg::LaserInfo>::SharedPtr laser_info_sub_;
-        rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
+private:
+  rclcpp::Subscription<follow_wall_interfaces::msg::LaserInfo>::SharedPtr laser_info_sub_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
 };
 
 
