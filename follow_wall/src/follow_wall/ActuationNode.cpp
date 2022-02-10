@@ -11,3 +11,26 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#include <string>
+
+#include "rclcpp/rclcpp.hpp"
+#include "geometry_msgs/msg/twist.hpp"
+#include "follow_wall_interfaces/msg/laser_info.hpp"
+#include "follow_wall/ActuationNode.hpp"
+
+using std::placeholders::_1;
+
+ActuationNode::ActuationNode(const std::string& name) : Node(name) {
+    vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
+    laser_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
+      "/follow_wall/data", 10, std::bind(&ActuationNode::laser_callback, this, _1));
+}
+
+void ActuationNode::laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg) {
+  return;
+}
+
+void ActuationNode::do_work() {
+  return;
+}

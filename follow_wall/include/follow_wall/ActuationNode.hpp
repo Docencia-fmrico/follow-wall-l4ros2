@@ -14,4 +14,28 @@
 #ifndef FOLLOW_WALL__ACTUATIONNODE_HPP_
 #define FOLLOW_WALL__ACTUATIONNODE_HPP_
 
+#include <string>
+
+#include "rclcpp/rclcpp.hpp"
+#include "geometry_msgs/msg/twist.hpp"
+#include "follow_wall_interfaces/msg/laser_info.hpp"
+
+#define SAFE_DISTANCE 0.4
+#define INTERVAL 0.05
+
+class ActuationNode : public rclcpp::Node {
+    public:
+        ActuationNode(const std::string& name);
+
+        void do_work();
+
+    private:
+        void laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg);
+
+    private:
+        rclcpp::Subscription<follow_wall_interfaces::msg::LaserInfo>::SharedPtr laser_info_sub_;
+        rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
+};
+
+
 #endif  // FOLLOW_WALL__ACTUATIONNODE_HPP_
