@@ -29,6 +29,55 @@ ActuationNode::ActuationNode(const std::string & name)
     "/follow_wall/data", 10, std::bind(&ActuationNode::laser_callback, this, _1));
 }
 
-void ActuationNode::laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg) {}
+void ActuationNode::laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg) {
+  //TODO: change the private data.
+  
+  /*
+  if (data says there is a wall in front) {
+    state_ = FOLLOW
+  }
+  */
+}
 
-void ActuationNode::do_work() {}
+geometry_msgs::msg::Twist stop() {
+  geometry_msgs::msg::Twist vel_msg;
+  vel_msg.linear.x = 0.0;
+  vel_msg.linear.y = 0.0;
+  vel_msg.linear.z = 0.0;
+  vel_msg.angular.x = 0.0;
+  vel_msg.angular.y = 0.0;
+  vel_msg.angular.z = 0.0;
+
+  return vel_msg;
+}
+
+geometry_msgs::msg::Twist search() {
+  geometry_msgs::msg::Twist vel_msg;
+  vel_msg.linear.x = FOLLOWING_LINEAR_VEL;
+  vel_msg.linear.y = 0.0;
+  vel_msg.linear.z = 0.0;
+  vel_msg.angular.x = 0.0;
+  vel_msg.angular.y = 0.0;
+  vel_msg.angular.z = 0.0;
+
+  return vel_msg;
+}
+
+void ActuationNode::do_work() {
+  geometry_msgs::msg::Twist vel_msg;
+
+  switch(state_) {
+    case SEARCH: //go forward until a wall is found.
+      vel_msg = search();
+      break;
+    case FOLLOW: //follow the found wall.
+      vel_msg = stop();
+      //vel_msg = follow();
+      break;
+  }
+
+  vel_pub_->publish(vel_msg);
+
+
+  
+}

@@ -22,6 +22,14 @@
 
 #define SAFE_DISTANCE 0.4
 #define INTERVAL 0.05
+#define FOLLOWING_LINEAR_VEL 0.5 //linear velocity when following the wall.
+#define TURNING_LINEAR_VEL   0.3 //linear velocity when turning a corner.
+#define TURNING_ANGULAR_VEL  0.5 //angular velocity when turning a corner.
+
+enum state {
+  SEARCH,
+  FOLLOW
+};
 
 class ActuationNode : public rclcpp::Node
 {
@@ -36,6 +44,9 @@ private:
 private:
   rclcpp::Subscription<follow_wall_interfaces::msg::LaserInfo>::SharedPtr laser_info_sub_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
+  
+  enum state state_ = SEARCH;
+
 };
 
 
