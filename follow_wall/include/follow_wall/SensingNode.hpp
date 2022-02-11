@@ -18,6 +18,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
 #include "example_interfaces/msg/int8_multi_array.hpp"
+#include "follow_wall_interfaces/msg/laser_info.hpp"
 
 enum
 {
@@ -39,6 +40,6 @@ private:
 
 private:
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr laser_sub_;
-  rclcpp::Publisher<example_interfaces::msg::Int8MultiArray>::SharedPtr pub_;
+  rclcpp::Publisher<follow_wall_interfaces::msg::LaserInfo>::SharedPtr pub_;
 };
 #endif  // FOLLOW_WALL__SENSINGNODE_HPP_

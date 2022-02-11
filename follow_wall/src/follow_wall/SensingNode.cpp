@@ -25,8 +25,8 @@ SensingNode::SensingNode(const std::string & name)
     "scan_raw", rclcpp::QoS(1).reliable(),
     std::bind(&SensingNode::callback, this, _1));
 
-  pub_ = create_publisher<example_interfaces::msg::Int8MultiArray>(
-    "follow_wall_data", 10);
+  pub_ = create_publisher<follow_wall_interfaces::msg::LaserInfo>(
+    "/follow_wall/data", 10);
 }
 
 
@@ -66,11 +66,11 @@ void SensingNode::callback(
   float right_d = get_min_dist(msg, index_right);
   float front_right_d = get_min_dist(msg, index_front_right);
 
-  example_interfaces::msg::Int8MultiArray msg_to_send;
+  follow_wall_interfaces::msg::LaserInfo msg_to_send;
 
-  msg_to_send.data.push_back(get_val_from_d(front_d));
-  msg_to_send.data.push_back(get_val_from_d(right_d));
-  msg_to_send.data.push_back(get_val_from_d(front_right_d));
+  msg_to_send.front = get_val_from_d(front_d);
+  msg_to_send.right = get_val_from_d(right_d);
+  msg_to_send.front_right = get_val_from_d(front_right_d);
 
   pub_->publish(msg_to_send);
 
