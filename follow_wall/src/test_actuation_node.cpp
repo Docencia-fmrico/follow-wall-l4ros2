@@ -22,7 +22,7 @@ int main(int argc, char * argv[])
 
   auto node = std::make_shared<ActuationNode>("actuation_node");
   
-  rclcpp::Rate loop_rate(50ms);
+  rclcpp::Rate loop_rate(500ms);
 
   while (rclcpp::ok()) {
 

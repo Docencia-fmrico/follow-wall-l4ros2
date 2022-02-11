@@ -28,7 +28,17 @@
 
 enum state {
   SEARCH,
-  FOLLOW
+  TURN,
+  FORWARD,
+  CLOSED_CORNER,
+  OPEN_CORNER
+};
+
+enum
+{
+  LESS = -1,
+  IN_RANGE,
+  GREATER
 };
 
 class ActuationNode : public rclcpp::Node
@@ -46,7 +56,7 @@ private:
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
   
   enum state state_ = SEARCH;
-
+  follow_wall_interfaces::msg::LaserInfo last_data_;
 };
 
 
