@@ -22,13 +22,106 @@
 using std::placeholders::_1;
 
 ActuationNode::ActuationNode(const std::string & name)
-: Node(name)
+: Node(name), state_(SEARCH_WALL)
 {
   vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
-  laser_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
-    "/follow_wall/data", 10, std::bind(&ActuationNode::laser_callback, this, _1));
+  sensing_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
+    "/follow_wall/data", 10, std::bind(&ActuationNode::sensing_callback, this, _1));
 }
 
-void ActuationNode::laser_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg) {}
+void ActuationNode::sensing_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg)
+{
+  msg_ = msg;
+  // RCLCPP_INFO(this->get_logger(), "I heard something");
+}
 
-void ActuationNode::do_work() {}
+void ActuationNode::tick()
+{
+  if (msg_ == nullptr) {
+    return;
+  }
+  
+  geometry_msgs::msg::Twist vel_msg;
+  vel_msg.linear.x = 0.0;
+  vel_msg.linear.y = 0.0;
+  vel_msg.linear.z = 0.0;
+  vel_msg.angular.x = 0.0;
+  vel_msg.angular.y = 0.0;
+  vel_msg.angular.z = 0.0;
+
+  this->update_state();
+  RCLCPP_INFO(this->get_logger(), "state: %s", state_);
+
+  switch (state_) {
+  case SEARCH_WALL:
+  case GO_STRAIGHT:
+    vel_msg.linear.x = FOLLOWING_LINEAR_VEL;
+    break;
+
+  case TURN_LEFT:
+    vel_msg.linear.x = TURNING_LINEAR_VEL;
+    vel_msg.angular.z = TURNING_ANGULAR_VEL;
+    break;
+  
+  case TURN_RIGHT:
+    vel_msg.linear.x = TURNING_LINEAR_VEL;
+    vel_msg.angular.z = -TURNING_ANGULAR_VEL;
+    break;
+  }
+
+  vel_pub_->publish(vel_msg);
+}
+
+void ActuationNode::update_state()
+{
+  switch (state_) {
+  case SEARCH_WALL:
+    if (msg_->front == CLOSE || msg_->front_right == CLOSE || msg_->right == CLOSE) {
+      state_ = TURN_LEFT;
+      return;
+    }
+    return;
+    break;
+
+  case GO_STRAIGHT:
+    switch (msg_->front) {
+    case OKEY:
+    case FAR:
+      if (msg_->right == FAR && msg_->front_right == FAR) {
+        state_ = TURN_RIGHT;
+        return;
+      }
+      if (msg_->right == CLOSE || msg_->front_right == CLOSE) {
+        state_ = TURN_LEFT;
+        return;
+      }
+      return;
+      break;
+    
+    case CLOSE:
+      state_ = TURN_LEFT;
+      return;
+    }
+    break;
+
+  case TURN_LEFT:
+    if (msg_->front == FAR) {
+      if (msg_->right != CLOSE && msg_->front_right != CLOSE) {
+        state_ = GO_STRAIGHT;
+        return;
+      }
+    }
+    return;
+    break;
+  
+  case TURN_RIGHT:
+    if (msg_->front == FAR) {
+      if (msg_->right != FAR || msg_->front_right != FAR) {
+        state_ = GO_STRAIGHT;
+        return;
+      }
+    }
+    return;
+    break;
+  }
+}
