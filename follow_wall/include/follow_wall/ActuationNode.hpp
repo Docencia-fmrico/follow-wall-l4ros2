@@ -23,18 +23,20 @@
 
 #define SAFE_DISTANCE 0.4
 #define INTERVAL 0.05
-#define FOLLOWING_LINEAR_VEL 0.5 //linear velocity when following the wall.
-#define TURNING_LINEAR_VEL   0.3 //linear velocity when turning a corner.
-#define TURNING_ANGULAR_VEL  0.5 //angular velocity when turning a corner.
+#define FOLLOWING_LINEAR_VEL 0.5  // linear velocity when following the wall.
+#define TURNING_LINEAR_VEL 0.3  // linear velocity when turning a corner.
+#define TURNING_ANGULAR_VEL 0.5  // angular velocity when turning a corner.
 
-enum State {
+enum State
+{
   SEARCH_WALL,
   GO_STRAIGHT,
   TURN_RIGHT,
   TURN_LEFT
 };
 
-enum Constants {
+enum Constants
+{
   CLOSE = -1,
   OKEY = 0,
   FAR = 1
@@ -45,7 +47,7 @@ class ActuationNode : public rclcpp::Node
 {
 public:
   explicit ActuationNode(const std::string & name);
-  
+
   void update_state();
 
   void tick();

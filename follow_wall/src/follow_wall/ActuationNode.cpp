@@ -40,7 +40,7 @@ void ActuationNode::tick()
   if (msg_ == nullptr) {
     return;
   }
-  
+
   geometry_msgs::msg::Twist vel_msg;
   vel_msg.linear.x = 0.0;
   vel_msg.linear.y = 0.0;
@@ -50,23 +50,36 @@ void ActuationNode::tick()
   vel_msg.angular.z = 0.0;
 
   this->update_state();
-  RCLCPP_INFO(this->get_logger(), "state: %s", state_);
+  switch (state_) {
+    case SEARCH_WALL:
+      RCLCPP_INFO(this->get_logger(), "state: %s", "SEARCH_WALL");
+      break;
+    case GO_STRAIGHT:
+      RCLCPP_INFO(this->get_logger(), "state: %s", "GO_STRAIGHT");
+      break;
+    case TURN_LEFT:
+      RCLCPP_INFO(this->get_logger(), "state: %s", "TURN_LEFT");
+      break;
+    case TURN_RIGHT:
+      RCLCPP_INFO(this->get_logger(), "state: %s", "TURN_RIGHT");
+      break;
+  }
 
   switch (state_) {
-  case SEARCH_WALL:
-  case GO_STRAIGHT:
-    vel_msg.linear.x = FOLLOWING_LINEAR_VEL;
-    break;
+    case SEARCH_WALL:
+    case GO_STRAIGHT:
+      vel_msg.linear.x = FOLLOWING_LINEAR_VEL;
+      break;
 
-  case TURN_LEFT:
-    vel_msg.linear.x = TURNING_LINEAR_VEL;
-    vel_msg.angular.z = TURNING_ANGULAR_VEL;
-    break;
-  
-  case TURN_RIGHT:
-    vel_msg.linear.x = TURNING_LINEAR_VEL;
-    vel_msg.angular.z = -TURNING_ANGULAR_VEL;
-    break;
+    case TURN_LEFT:
+      vel_msg.linear.x = TURNING_LINEAR_VEL;
+      vel_msg.angular.z = TURNING_ANGULAR_VEL;
+      break;
+
+    case TURN_RIGHT:
+      vel_msg.linear.x = TURNING_LINEAR_VEL;
+      vel_msg.angular.z = -TURNING_ANGULAR_VEL;
+      break;
   }
 
   vel_pub_->publish(vel_msg);
@@ -75,53 +88,53 @@ void ActuationNode::tick()
 void ActuationNode::update_state()
 {
   switch (state_) {
-  case SEARCH_WALL:
-    if (msg_->front == CLOSE || msg_->front_right == CLOSE || msg_->right == CLOSE) {
-      state_ = TURN_LEFT;
-      return;
-    }
-    return;
-    break;
-
-  case GO_STRAIGHT:
-    switch (msg_->front) {
-    case OKEY:
-    case FAR:
-      if (msg_->right == FAR && msg_->front_right == FAR) {
-        state_ = TURN_RIGHT;
-        return;
-      }
-      if (msg_->right == CLOSE || msg_->front_right == CLOSE) {
+    case SEARCH_WALL:
+      if (msg_->front == CLOSE || msg_->front_right == CLOSE || msg_->right == CLOSE) {
         state_ = TURN_LEFT;
         return;
       }
       return;
       break;
-    
-    case CLOSE:
-      state_ = TURN_LEFT;
-      return;
-    }
-    break;
 
-  case TURN_LEFT:
-    if (msg_->front == FAR) {
-      if (msg_->right != CLOSE && msg_->front_right != CLOSE) {
-        state_ = GO_STRAIGHT;
-        return;
+    case GO_STRAIGHT:
+      switch (msg_->front) {
+        case OKEY:
+        case FAR:
+          if (msg_->right == FAR && msg_->front_right == FAR) {
+            state_ = TURN_RIGHT;
+            return;
+          }
+          if (msg_->right == CLOSE || msg_->front_right == CLOSE) {
+            state_ = TURN_LEFT;
+            return;
+          }
+          return;
+          break;
+
+        case CLOSE:
+          state_ = TURN_LEFT;
+          return;
       }
-    }
-    return;
-    break;
-  
-  case TURN_RIGHT:
-    if (msg_->front == FAR) {
-      if (msg_->right != FAR || msg_->front_right != FAR) {
-        state_ = GO_STRAIGHT;
-        return;
+      break;
+
+    case TURN_LEFT:
+      if (msg_->front == FAR) {
+        if (msg_->right != CLOSE && msg_->front_right != CLOSE) {
+          state_ = GO_STRAIGHT;
+          return;
+        }
       }
-    }
-    return;
-    break;
+      return;
+      break;
+
+    case TURN_RIGHT:
+      if (msg_->front == FAR) {
+        if (msg_->right != FAR || msg_->front_right != FAR) {
+          state_ = GO_STRAIGHT;
+          return;
+        }
+      }
+      return;
+      break;
   }
 }
