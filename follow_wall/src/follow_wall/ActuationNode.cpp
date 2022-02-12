@@ -18,11 +18,12 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "follow_wall_interfaces/msg/laser_info.hpp"
 #include "follow_wall/ActuationNode.hpp"
+#include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 using std::placeholders::_1;
 
 ActuationNode::ActuationNode(const std::string & name)
-: Node(name), state_(SEARCH_WALL)
+: Node(name), state_(SEARCH_WALL), rclcpp_lifecycle::LifecycleNode("lf_act_node")
 {
   vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
   sensing_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
@@ -33,6 +34,55 @@ void ActuationNode::sensing_callback(const follow_wall_interfaces::msg::LaserInf
 {
   msg_ = msg;
   // RCLCPP_INFO(this->get_logger(), "I heard something");
+}
+
+
+
+CallbackReturnT on_configure(const rclcpp_lifecycle::State & state)
+{
+  //RCLCPP_INFO(get_logger(), "Configuring.");
+  //TODO: add parameters.
+  //speed_ = get_parameter("speed").get_value<double>();
+  
+  return CallbackReturnT::SUCCESS;
+}
+
+CallbackReturnT on_activate(const rclcpp_lifecycle::State & state) 
+{
+  //RCLCPP_INFO(get_logger(), "Activating");
+  //vel_pub_->on_activate();
+  
+  return CallbackReturnT::SUCCESS;
+}
+
+CallbackReturnT on_deactivate(const rclcpp_lifecycle::State & state) 
+{
+  //RCLCPP_INFO(get_logger(), "Deactivating.");
+  //vel_pub_->on_deactivate();
+  
+  return CallbackReturnT::SUCCESS;
+}
+
+CallbackReturnT on_cleanup(const rclcpp_lifecycle::State & state) 
+{
+  //RCLCPP_INFO(get_logger(), "Cleanning Up.");
+  //vel_pub_.reset();
+
+  return CallbackReturnT::SUCCESS;
+}
+
+CallbackReturnT on_shutdown(const rclcpp_lifecycle::State & state) 
+{
+  //RCLCPP_INFO(get_logger(), "Shutting Down.");
+  //vel_pub_.reset();
+  
+  return CallbackReturnT::SUCCESS;
+}
+
+CallbackReturnT on_error(const rclcpp_lifecycle::State & state) 
+{
+  //RCLCPP_INFO(get_logger(), "Shutting Down.");
+  //return CallbackReturnT::SUCCESS;
 }
 
 void ActuationNode::tick()
