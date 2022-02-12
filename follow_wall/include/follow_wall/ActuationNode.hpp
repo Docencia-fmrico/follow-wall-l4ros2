@@ -57,6 +57,7 @@ private:
 
 private:
   State state_;
+  bool static_turn_;
   follow_wall_interfaces::msg::LaserInfo::SharedPtr msg_;
 
 

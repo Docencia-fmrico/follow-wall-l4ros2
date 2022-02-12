@@ -72,12 +72,20 @@ void ActuationNode::tick()
       break;
 
     case TURN_LEFT:
-      vel_msg.linear.x = TURNING_LINEAR_VEL;
+      if (static_turn_) {
+        vel_msg.linear.x = 0.0;
+      } else {
+        vel_msg.linear.x = TURNING_LINEAR_VEL;
+      }
       vel_msg.angular.z = TURNING_ANGULAR_VEL;
       break;
 
     case TURN_RIGHT:
-      vel_msg.linear.x = TURNING_LINEAR_VEL;
+      if (static_turn_) {
+        vel_msg.linear.x = 0.0;
+      } else {
+        vel_msg.linear.x = TURNING_LINEAR_VEL;
+      }
       vel_msg.angular.z = -TURNING_ANGULAR_VEL;
       break;
   }
@@ -137,4 +145,6 @@ void ActuationNode::update_state()
       return;
       break;
   }
+
+  static_turn_ = msg_->front == CLOSE;
 }
