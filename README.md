@@ -6,13 +6,27 @@ Status](https://github.com/Docencia-fmrico/follow-wall-l4ros2/workflows/main/bad
 
 # Follow Wall task
 
-In this task the robot will approach a wall and follow its countour
+In this task the robot will approach a wall and follow its countour.
+
 
 # Members of L4ROS2
+
 - Javier de la Canóniga: @javi-dbgr
 - Iván López: @ivrolan
 - Alejandro Moncalvillo: @Amglega
 - Unai Sanz: @USanz
 
-# Practice scheme
+
+# Node diagram
+
 ![scheme](./wall_follower_diagram.png)
+
+
+# Sensing node scheme
+
+![scheme](./sensing_node_scheme.png)
+
+
+# Actuation node diagram (state machine)
+
+![scheme](./state_machine_diagram.png)
