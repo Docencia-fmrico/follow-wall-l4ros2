@@ -42,6 +42,8 @@ install(DIRECTORY include/
   DESTINATION include/
 )
 
+install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
+
 add_library(${PROJECT_NAME} SHARED
   src/follow_wall/SensingNode.cpp
   src/follow_wall/ActuationNode.cpp
@@ -64,8 +66,6 @@ target_link_libraries(follow_wall_main ${PROJECT_NAME})
 target_link_libraries(test_sensing ${PROJECT_NAME})
 
 target_link_libraries(test_actuation ${PROJECT_NAME})
-
-
 
 
 install(TARGETS
