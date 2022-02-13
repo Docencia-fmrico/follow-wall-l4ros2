@@ -26,17 +26,20 @@ ActuationNode::ActuationNode(const std::string & name)
 : rclcpp_lifecycle::LifecycleNode(name), state_(SEARCH_WALL)
 {
   vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
-  sensing_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
-    "/follow_wall/data", 10, std::bind(&ActuationNode::sensing_callback, this, _1));
+  sensing_info_sub_ =
+    create_subscription<follow_wall_interfaces::msg::LaserInfo>(
+    "/follow_wall/data", rclcpp::QoS(10).reliable(),
+    std::bind(&ActuationNode::sensing_callback, this, _1));
+  static_turn_ = false;
+
+  // RCLCPP_INFO(this->get_logger(), "node created\n");
 }
 
 void ActuationNode::sensing_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg)
 {
   msg_ = msg;
-  RCLCPP_INFO(this->get_logger(), "I heard something");
+  // RCLCPP_INFO(this->get_logger(), "sense receiving\n");
 }
-
-
 
 CallbackReturnT on_configure(const rclcpp_lifecycle::State & state)
 {
@@ -122,12 +125,20 @@ void ActuationNode::tick()
       break;
 
     case TURN_LEFT:
-      vel_msg.linear.x = TURNING_LINEAR_VEL;
+      if (!static_turn_) {
+        vel_msg.linear.x = TURNING_LINEAR_VEL;
+      } else {
+        RCLCPP_INFO(this->get_logger(), "static TURN_LEFT");
+      }
       vel_msg.angular.z = TURNING_ANGULAR_VEL;
       break;
 
     case TURN_RIGHT:
-      vel_msg.linear.x = TURNING_LINEAR_VEL;
+      if (!static_turn_) {
+        vel_msg.linear.x = TURNING_LINEAR_VEL;
+      } else {
+        RCLCPP_INFO(this->get_logger(), "static TURN_RIGHT");
+      }
       vel_msg.angular.z = -TURNING_ANGULAR_VEL;
       break;
   }
@@ -187,4 +198,6 @@ void ActuationNode::update_state()
       return;
       break;
   }
+
+  static_turn_ = (msg_->front == CLOSE || msg_->front_right == CLOSE);
 }
