@@ -31,13 +31,13 @@ ActuationNode::ActuationNode(const std::string & name)
   
   static_turn_ = false;
 
-  RCLCPP_INFO(this->get_logger(), "node created\n");
+  //RCLCPP_INFO(this->get_logger(), "node created\n");
 }
 
 void ActuationNode::sensing_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg)
 {
   msg_ = msg;
-  RCLCPP_INFO(this->get_logger(), "sense receiving\n");
+  //RCLCPP_INFO(this->get_logger(), "sense receiving\n");
 }
 
 void ActuationNode::tick()
@@ -77,28 +77,20 @@ void ActuationNode::tick()
       break;
 
     case TURN_LEFT:
-      /*
-      if (static_turn_) {
-        vel_msg.linear.x = 0.0;
-      } else {
+      if (!static_turn_) {
         vel_msg.linear.x = TURNING_LINEAR_VEL;
+      } else {
+        RCLCPP_INFO(this->get_logger(), "static TURN_LEFT");
       }
-      */
-
-      vel_msg.linear.x = TURNING_LINEAR_VEL;
       vel_msg.angular.z = TURNING_ANGULAR_VEL;
       break;
 
     case TURN_RIGHT:
-      /*
-      if (static_turn_) {
-        vel_msg.linear.x = 0.0;
-      } else {
+      if (!static_turn_) {
         vel_msg.linear.x = TURNING_LINEAR_VEL;
+      } else {
+        RCLCPP_INFO(this->get_logger(), "static TURN_RIGHT");
       }
-      */
-
-      vel_msg.linear.x = TURNING_LINEAR_VEL;
       vel_msg.angular.z = -TURNING_ANGULAR_VEL;
       break;
   }
@@ -159,5 +151,5 @@ void ActuationNode::update_state()
       break;
   }
 
-  //static_turn_ = msg_->front == CLOSE;
+  static_turn_ = (msg_->front == CLOSE || msg_->front_right == CLOSE);
 }

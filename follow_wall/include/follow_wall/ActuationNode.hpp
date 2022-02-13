@@ -24,7 +24,7 @@
 #define SAFE_DISTANCE 0.4
 #define INTERVAL 0.05
 #define FOLLOWING_LINEAR_VEL 0.5  // linear velocity when following the wall.
-#define TURNING_LINEAR_VEL 0.3  // linear velocity when turning a corner.
+#define TURNING_LINEAR_VEL 0.1  // linear velocity when turning a corner.
 #define TURNING_ANGULAR_VEL 0.5  // angular velocity when turning a corner.
 
 enum State
