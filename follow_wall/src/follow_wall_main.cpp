@@ -32,7 +32,7 @@ int main(int argc, char * argv[])
     actuation_node->tick();
 
     rclcpp::spin_some(sensing_node);
-    rclcpp::spin_some(actuation_node);
+    rclcpp::spin_some(actuation_node->get_node_base_interface());
 
     loop_rate.sleep();
   }

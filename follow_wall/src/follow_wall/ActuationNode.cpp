@@ -43,48 +43,48 @@ void ActuationNode::sensing_callback(const follow_wall_interfaces::msg::LaserInf
 
 CallbackReturnT on_configure(const rclcpp_lifecycle::State & state)
 {
-  //RCLCPP_INFO(get_logger(), "Configuring.");
-  //TODO: add parameters.
-  //speed_ = get_parameter("speed").get_value<double>();
-  
-  return CallbackReturnT::SUCCESS;
-}
-
-CallbackReturnT on_activate(const rclcpp_lifecycle::State & state) 
-{
-  //RCLCPP_INFO(get_logger(), "Activating");
-  //vel_pub_->on_activate();
-  
-  return CallbackReturnT::SUCCESS;
-}
-
-CallbackReturnT on_deactivate(const rclcpp_lifecycle::State & state) 
-{
-  //RCLCPP_INFO(get_logger(), "Deactivating.");
-  //vel_pub_->on_deactivate();
-  
-  return CallbackReturnT::SUCCESS;
-}
-
-CallbackReturnT on_cleanup(const rclcpp_lifecycle::State & state) 
-{
-  //RCLCPP_INFO(get_logger(), "Cleanning Up.");
-  //vel_pub_.reset();
+  RCLCPP_INFO(get_logger(), "Configuring.");
+  // TODO(someone): add parameters.
+  // speed_ = get_parameter("speed").get_value<double>();
 
   return CallbackReturnT::SUCCESS;
 }
 
-CallbackReturnT on_shutdown(const rclcpp_lifecycle::State & state) 
+CallbackReturnT on_activate(const rclcpp_lifecycle::State & state)
 {
-  //RCLCPP_INFO(get_logger(), "Shutting Down.");
-  //vel_pub_.reset();
-  
+  RCLCPP_INFO(get_logger(), "Activating");
+  // vel_pub_->on_activate();
+
   return CallbackReturnT::SUCCESS;
 }
 
-CallbackReturnT on_error(const rclcpp_lifecycle::State & state) 
+CallbackReturnT on_deactivate(const rclcpp_lifecycle::State & state)
 {
-  //RCLCPP_INFO(get_logger(), "Shutting Down.");
+  RCLCPP_INFO(get_logger(), "Deactivating.");
+  // vel_pub_->on_deactivate();
+
+  return CallbackReturnT::SUCCESS;
+}
+
+CallbackReturnT on_cleanup(const rclcpp_lifecycle::State & state)
+{
+  RCLCPP_INFO(get_logger(), "Cleanning Up.");
+  // vel_pub_.reset();
+
+  return CallbackReturnT::SUCCESS;
+}
+
+CallbackReturnT on_shutdown(const rclcpp_lifecycle::State & state)
+{
+  RCLCPP_INFO(get_logger(), "Shutting Down.");
+  // vel_pub_.reset();
+
+  return CallbackReturnT::SUCCESS;
+}
+
+CallbackReturnT on_error(const rclcpp_lifecycle::State & state)
+{
+  RCLCPP_INFO(get_logger(), "Shutting Down.");
   return CallbackReturnT::SUCCESS;
 }
 

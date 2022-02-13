@@ -54,7 +54,7 @@ public:
   void update_state();
 
   void tick();
-  
+
 private:
   void sensing_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg);
 
