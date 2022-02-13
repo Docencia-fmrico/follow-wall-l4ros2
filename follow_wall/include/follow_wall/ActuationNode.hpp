@@ -50,18 +50,11 @@ class ActuationNode : public rclcpp_lifecycle::LifecycleNode
 {
 public:
   explicit ActuationNode(const std::string & name);
-
+  virtual ~ActuationNode() {}
   void update_state();
 
   void tick();
   
-  CallbackReturnT on_configure(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_activate(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_deactivate(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_cleanup(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_shutdown(const rclcpp_lifecycle::State & state);
-  CallbackReturnT on_error(const rclcpp_lifecycle::State & state);
-
 private:
   void sensing_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg);
 
