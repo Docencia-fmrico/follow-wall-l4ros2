@@ -23,7 +23,7 @@
 using std::placeholders::_1;
 
 ActuationNode::ActuationNode(const std::string & name)
-: Node(name), state_(SEARCH_WALL), rclcpp_lifecycle::LifecycleNode("lf_act_node")
+: rclcpp_lifecycle::LifecycleNode(name), state_(SEARCH_WALL)
 {
   vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
   sensing_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
@@ -33,7 +33,7 @@ ActuationNode::ActuationNode(const std::string & name)
 void ActuationNode::sensing_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg)
 {
   msg_ = msg;
-  // RCLCPP_INFO(this->get_logger(), "I heard something");
+  RCLCPP_INFO(this->get_logger(), "I heard something");
 }
 
 
@@ -82,7 +82,7 @@ CallbackReturnT on_shutdown(const rclcpp_lifecycle::State & state)
 CallbackReturnT on_error(const rclcpp_lifecycle::State & state) 
 {
   //RCLCPP_INFO(get_logger(), "Shutting Down.");
-  //return CallbackReturnT::SUCCESS;
+  return CallbackReturnT::SUCCESS;
 }
 
 void ActuationNode::tick()
