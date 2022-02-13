@@ -26,13 +26,18 @@ ActuationNode::ActuationNode(const std::string & name)
 {
   vel_pub_ = create_publisher<geometry_msgs::msg::Twist>("/nav_vel", 10);
   sensing_info_sub_ = create_subscription<follow_wall_interfaces::msg::LaserInfo>(
-    "/follow_wall/data", 10, std::bind(&ActuationNode::sensing_callback, this, _1));
+    "/follow_wall/data", rclcpp::QoS(10).reliable(), std::bind(&ActuationNode::sensing_callback, this, _1));
+
+  
+  static_turn_ = false;
+
+  RCLCPP_INFO(this->get_logger(), "node created\n");
 }
 
 void ActuationNode::sensing_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg)
 {
   msg_ = msg;
-  // RCLCPP_INFO(this->get_logger(), "I heard something");
+  RCLCPP_INFO(this->get_logger(), "sense receiving\n");
 }
 
 void ActuationNode::tick()
@@ -72,20 +77,28 @@ void ActuationNode::tick()
       break;
 
     case TURN_LEFT:
+      /*
       if (static_turn_) {
         vel_msg.linear.x = 0.0;
       } else {
         vel_msg.linear.x = TURNING_LINEAR_VEL;
       }
+      */
+
+      vel_msg.linear.x = TURNING_LINEAR_VEL;
       vel_msg.angular.z = TURNING_ANGULAR_VEL;
       break;
 
     case TURN_RIGHT:
+      /*
       if (static_turn_) {
         vel_msg.linear.x = 0.0;
       } else {
         vel_msg.linear.x = TURNING_LINEAR_VEL;
       }
+      */
+
+      vel_msg.linear.x = TURNING_LINEAR_VEL;
       vel_msg.angular.z = -TURNING_ANGULAR_VEL;
       break;
   }
@@ -146,5 +159,5 @@ void ActuationNode::update_state()
       break;
   }
 
-  static_turn_ = msg_->front == CLOSE;
+  //static_turn_ = msg_->front == CLOSE;
 }

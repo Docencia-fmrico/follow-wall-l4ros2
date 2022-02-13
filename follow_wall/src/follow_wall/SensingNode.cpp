@@ -25,7 +25,7 @@ SensingNode::SensingNode(const std::string & name)
     std::bind(&SensingNode::callback, this, _1));
 
   pub_ = create_publisher<example_interfaces::msg::Int8MultiArray>(
-    "follow_wall_data", 10);
+    "follow_wall/data", 10);
 }
 
 
