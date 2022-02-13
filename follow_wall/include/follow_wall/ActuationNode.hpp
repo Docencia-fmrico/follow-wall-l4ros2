@@ -46,7 +46,7 @@ enum Constants
 using CallbackReturnT =
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
-class ActuationNode : public rclcpp::Node, public rclcpp_lifecycle::LifecycleNode
+class ActuationNode : public rclcpp_lifecycle::LifecycleNode
 {
 public:
   explicit ActuationNode(const std::string & name);

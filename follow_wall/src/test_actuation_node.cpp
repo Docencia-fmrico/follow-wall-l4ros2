@@ -27,7 +27,7 @@ int main(int argc, char * argv[])
   while (rclcpp::ok()) {
     node->tick();
 
-    rclcpp::spin_some(node);
+    rclcpp::spin_some(node->get_node_base_interface());
     loop_rate.sleep();
   }
 
