@@ -43,7 +43,7 @@ public:
   rclcpp::Subscription<follow_wall_interfaces::msg::LaserInfo>::SharedPtr sub_;
 };
 
-TEST(example_test, arrival_test)
+TEST(sensing_test, greater_range_test)
 {
   auto laser_node = rclcpp::Node::make_shared("laser_node_pub");
   auto publisher = laser_node->create_publisher<sensor_msgs::msg::LaserScan>(
@@ -78,6 +78,60 @@ TEST(example_test, arrival_test)
   ASSERT_EQ(node_sub->msg_->front, GREATER);
   ASSERT_EQ(node_sub->msg_->right, GREATER);
   ASSERT_EQ(node_sub->msg_->front_right, GREATER);
+}
+
+TEST(sensing_test, in_range_test)
+{
+  auto laser_node = rclcpp::Node::make_shared("laser_node_pub");
+  auto publisher = laser_node->create_publisher<sensor_msgs::msg::LaserScan>(
+    "scan_raw", 10);
+  auto node_sub = std::make_shared<MinimalSubscriber>();
+
+  auto sensing_node = std::make_shared<SensingNode>("sensing_node");
+
+
+  rclcpp::executors::SingleThreadedExecutor executor;
+
+  executor.add_node(laser_node);
+  executor.add_node(node_sub);
+  executor.add_node(sensing_node);
+
+  sensor_msgs::msg::LaserScan data_3;
+  data_3.angle_min = -1.9198600053787231;
+  data_3.angle_increment = 0.005774015095084906;
+  std::vector<float> vect2(665, SAFE_DISTANCE);
+  data_3.ranges = vect2;
+  publisher->publish(data_3);
+
+  {
+    rclcpp::Rate rate(10);
+    auto start = laser_node->now();
+    while ((laser_node->now() - start).seconds() < 0.5) {
+      executor.spin_some();
+      rate.sleep();
+    }
+  }
+
+  ASSERT_EQ(node_sub->msg_->front, IN_RANGE);
+  ASSERT_EQ(node_sub->msg_->right, IN_RANGE);
+  ASSERT_EQ(node_sub->msg_->front_right, IN_RANGE);
+}
+
+TEST(sensing_test, less_range_test)
+{
+  auto laser_node = rclcpp::Node::make_shared("laser_node_pub");
+  auto publisher = laser_node->create_publisher<sensor_msgs::msg::LaserScan>(
+    "scan_raw", 10);
+  auto node_sub = std::make_shared<MinimalSubscriber>();
+
+  auto sensing_node = std::make_shared<SensingNode>("sensing_node");
+
+
+  rclcpp::executors::SingleThreadedExecutor executor;
+
+  executor.add_node(laser_node);
+  executor.add_node(node_sub);
+  executor.add_node(sensing_node);
 
   sensor_msgs::msg::LaserScan data_2;
   data_2.angle_min = -1.9198600053787231;
