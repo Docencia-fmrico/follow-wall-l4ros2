@@ -26,6 +26,8 @@ int main(int argc, char * argv[])
 
   auto actuation_node = std::make_shared<ActuationNode>("actuation_node");
 
+  actuation_node->configure();
+  actuation_node->activate();
   rclcpp::Rate loop_rate(50ms);
 
   while (rclcpp::ok()) {
