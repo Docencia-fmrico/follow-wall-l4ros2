@@ -42,6 +42,8 @@ install(DIRECTORY include/
   DESTINATION include/
 )
 
+install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
+
 add_library(${PROJECT_NAME} SHARED
   src/follow_wall/SensingNode.cpp
   src/follow_wall/ActuationNode.cpp
@@ -55,17 +57,21 @@ ament_target_dependencies(follow_wall_main ${dependencies})
 add_executable(test_sensing src/test_sensing_node.cpp)
 ament_target_dependencies(test_sensing ${dependencies})
 
+add_executable(test_actuation src/test_actuation_node.cpp)
+ament_target_dependencies(test_actuation ${dependencies})
+
 
 target_link_libraries(follow_wall_main ${PROJECT_NAME})
 
 target_link_libraries(test_sensing ${PROJECT_NAME})
 
-
+target_link_libraries(test_actuation ${PROJECT_NAME})
 
 
 install(TARGETS
 follow_wall_main
   test_sensing
+  test_actuation
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

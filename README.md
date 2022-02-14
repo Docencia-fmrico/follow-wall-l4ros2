@@ -21,7 +21,6 @@ In this task the robot will approach a wall and follow its countour.
 
 ![scheme](./wall_follower_diagram.png)
 
-
 # Sensing node scheme
 
 ![scheme](./sensing_node_scheme.png)
@@ -30,3 +29,13 @@ In this task the robot will approach a wall and follow its countour.
 # Actuation node diagram (state machine)
 
 ![scheme](./state_machine_diagram.png)
+
+# Examples of behavior
+You can find the full lenght videos in [this link](https://urjc-my.sharepoint.com/:f:/g/personal/a_moncalvillo_2019_alumnos_urjc_es/EnP7S7rvn4tAjBLFINh7QjkBLc0BIaSQbftx8fgklbykBQ?e=24uD1) 
+
+### Initial conditions: Corner
+![corner-init-vid](./corner_init.gif)
+
+### Initial conditions: No wall near
+![no-wall-vid](./no_wall_init.gif)
+

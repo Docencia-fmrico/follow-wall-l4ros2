@@ -11,7 +11,33 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#include <memory>
+#include "follow_wall/SensingNode.hpp"
+#include "follow_wall/ActuationNode.hpp"
+
+using namespace std::chrono_literals;
+
 int main(int argc, char * argv[])
 {
-  return 0;
+  rclcpp::init(argc, argv);
+
+  auto sensing_node = std::make_shared<SensingNode>("sensing_node");
+
+  auto actuation_node = std::make_shared<ActuationNode>("actuation_node");
+
+  actuation_node->configure();
+  actuation_node->activate();
+  rclcpp::Rate loop_rate(50ms);
+
+  while (rclcpp::ok()) {
+    actuation_node->tick();
+
+    rclcpp::spin_some(sensing_node);
+    rclcpp::spin_some(actuation_node->get_node_base_interface());
+
+    loop_rate.sleep();
+  }
+
+  rclcpp::shutdown();
 }
