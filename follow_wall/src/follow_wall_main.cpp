@@ -26,13 +26,15 @@ int main(int argc, char * argv[])
 
   auto actuation_node = std::make_shared<ActuationNode>("actuation_node");
 
+  actuation_node->configure();
+  actuation_node->activate();
   rclcpp::Rate loop_rate(50ms);
 
   while (rclcpp::ok()) {
     actuation_node->tick();
 
     rclcpp::spin_some(sensing_node);
-    rclcpp::spin_some(actuation_node);
+    rclcpp::spin_some(actuation_node->get_node_base_interface());
 
     loop_rate.sleep();
   }

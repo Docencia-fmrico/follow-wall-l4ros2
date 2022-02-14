@@ -19,6 +19,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "follow_wall_interfaces/msg/laser_info.hpp"
+#include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 
 #define SAFE_DISTANCE 0.4
@@ -42,15 +43,23 @@ enum Constants
   FAR = 1
 };
 
+using CallbackReturnT =
+  rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
-class ActuationNode : public rclcpp::Node
+class ActuationNode : public rclcpp_lifecycle::LifecycleNode
 {
 public:
   explicit ActuationNode(const std::string & name);
-
+  virtual ~ActuationNode() {}
   void update_state();
 
   void tick();
+  CallbackReturnT on_configure(const rclcpp_lifecycle::State & state);
+  CallbackReturnT on_activate(const rclcpp_lifecycle::State & state);
+  CallbackReturnT on_deactivate(const rclcpp_lifecycle::State & state);
+  CallbackReturnT on_shutdown(const rclcpp_lifecycle::State & state);
+  CallbackReturnT on_error(const rclcpp_lifecycle::State & state);
+  CallbackReturnT on_cleanup(const rclcpp_lifecycle::State & state);
 
 private:
   void sensing_callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg);
@@ -62,7 +71,7 @@ private:
 
 
   rclcpp::Subscription<follow_wall_interfaces::msg::LaserInfo>::SharedPtr sensing_info_sub_;
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
+  rclcpp_lifecycle::LifecyclePublisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
 };
 
 
