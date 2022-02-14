@@ -82,12 +82,12 @@ TEST(sensing_test, greater_range_test)
 
 TEST(sensing_test, in_range_test)
 {
-  auto laser_node = rclcpp::Node::make_shared("laser_node_pub");
+  auto laser_node = rclcpp::Node::make_shared("laser_node2_pub");
   auto publisher = laser_node->create_publisher<sensor_msgs::msg::LaserScan>(
     "scan_raw", 10);
   auto node_sub = std::make_shared<MinimalSubscriber>();
 
-  auto sensing_node = std::make_shared<SensingNode>("sensing_node");
+  auto sensing_node = std::make_shared<SensingNode>("sensing_node2");
 
 
   rclcpp::executors::SingleThreadedExecutor executor;
@@ -99,8 +99,8 @@ TEST(sensing_test, in_range_test)
   sensor_msgs::msg::LaserScan data_3;
   data_3.angle_min = -1.9198600053787231;
   data_3.angle_increment = 0.005774015095084906;
-  std::vector<float> vect2(665, SAFE_DISTANCE);
-  data_3.ranges = vect2;
+  std::vector<float> vect3(665, SAFE_DISTANCE);
+  data_3.ranges = vect3;
   publisher->publish(data_3);
 
   {
@@ -119,12 +119,12 @@ TEST(sensing_test, in_range_test)
 
 TEST(sensing_test, less_range_test)
 {
-  auto laser_node = rclcpp::Node::make_shared("laser_node_pub");
+  auto laser_node = rclcpp::Node::make_shared("laser_node3_pub");
   auto publisher = laser_node->create_publisher<sensor_msgs::msg::LaserScan>(
     "scan_raw", 10);
   auto node_sub = std::make_shared<MinimalSubscriber>();
 
-  auto sensing_node = std::make_shared<SensingNode>("sensing_node");
+  auto sensing_node = std::make_shared<SensingNode>("sensing_node3");
 
 
   rclcpp::executors::SingleThreadedExecutor executor;
