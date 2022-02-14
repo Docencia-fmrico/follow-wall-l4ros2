@@ -14,45 +14,56 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "rclcpp/rclcpp.hpp"
 #include "follow_wall/SensingNode.hpp"
 
 #include "gtest/gtest.h"
 
-follow_wall_interfaces::msg::LaserInfo msg_;
-rclcpp::Node::SharedPtr node_sub = nullptr;
+using std::placeholders::_1;
 
-void callback(const follow_wall_interfaces::msg::LaserInfo msg)
+class MinimalSubscriber : public rclcpp::Node
 {
-  msg_ = msg;
-}
+public:
+  MinimalSubscriber()
+  : Node("minimal_subscriber")
+  {
+    sub_ =
+      create_subscription<follow_wall_interfaces::msg::LaserInfo>(
+      "/follow_wall/data", rclcpp::QoS(10).reliable(),
+      std::bind(&MinimalSubscriber::callback, this, _1));
+  }
 
+  void callback(const follow_wall_interfaces::msg::LaserInfo::SharedPtr msg)
+  {
+    msg_ = msg;
+  }
+  follow_wall_interfaces::msg::LaserInfo::SharedPtr msg_;
+  rclcpp::Subscription<follow_wall_interfaces::msg::LaserInfo>::SharedPtr sub_;
+};
 
 TEST(example_test, arrival_test)
 {
-
   auto laser_node = rclcpp::Node::make_shared("laser_node_pub");
   auto publisher = laser_node->create_publisher<sensor_msgs::msg::LaserScan>(
     "scan_raw", 10);
-  /*
-  node_sub = rclcpp::Node::make_shared("node_sub");
-  auto subscription = node_sub->create_subscription<follow_wall_interfaces::msg::LaserInfo>("/follow_wall/data", 10, callback);
-  */
+  auto node_sub = std::make_shared<MinimalSubscriber>();
+
   auto sensing_node = std::make_shared<SensingNode>("sensing_node");
 
 
   rclcpp::executors::SingleThreadedExecutor executor;
 
   executor.add_node(laser_node);
-  //executor.add_node(node_sub);
+  executor.add_node(node_sub);
   executor.add_node(sensing_node);
 
   sensor_msgs::msg::LaserScan data_1;
   data_1.angle_min = -1.9198600053787231;
   data_1.angle_increment = 0.005774015095084906;
-  std::vector<float> vect1 (665, 10.0);
-  data_1.ranges= vect1;
+  std::vector<float> vect1(665, 10.0);
+  data_1.ranges = vect1;
   publisher->publish(data_1);
 
   {
@@ -64,14 +75,14 @@ TEST(example_test, arrival_test)
     }
   }
 
-  ASSERT_EQ(msg_.front, GREATER);
-  ASSERT_EQ(msg_.right, GREATER);
-  ASSERT_EQ(msg_.front_right, GREATER);
+  ASSERT_EQ(node_sub->msg_->front, GREATER);
+  ASSERT_EQ(node_sub->msg_->right, GREATER);
+  ASSERT_EQ(node_sub->msg_->front_right, GREATER);
 
   sensor_msgs::msg::LaserScan data_2;
   data_2.angle_min = -1.9198600053787231;
   data_2.angle_increment = 0.005774015095084906;
-  std::vector<float> vect2 (665, 0.0);
+  std::vector<float> vect2(665, 0.0);
   data_2.ranges = vect2;
   publisher->publish(data_2);
 
@@ -84,9 +95,9 @@ TEST(example_test, arrival_test)
     }
   }
 
-  ASSERT_EQ(msg_.front, LESS);
-  ASSERT_EQ(msg_.right, LESS);
-  ASSERT_EQ(msg_.front_right, LESS);
+  ASSERT_EQ(node_sub->msg_->front, LESS);
+  ASSERT_EQ(node_sub->msg_->right, LESS);
+  ASSERT_EQ(node_sub->msg_->front_right, LESS);
 }
 
 int main(int argc, char ** argv)
