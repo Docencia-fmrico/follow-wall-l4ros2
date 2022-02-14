@@ -30,7 +30,7 @@ SensingNode::SensingNode(const std::string & name)
 }
 
 
-int get_val_from_d(int d)
+int get_val_from_d(float d)
 {
   if (d < SAFE_DISTANCE - INTERVAL) {
     return LESS;
