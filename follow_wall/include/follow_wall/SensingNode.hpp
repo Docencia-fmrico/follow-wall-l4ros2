@@ -27,7 +27,7 @@ enum
   GREATER
 };
 
-#define SAFE_DISTANCE 1.0
+#define SAFE_DISTANCE 0.7
 #define INTERVAL 0.05
 
 class SensingNode : public rclcpp::Node

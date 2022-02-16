@@ -22,7 +22,7 @@ SensingNode::SensingNode(const std::string & name)
 : Node(name)
 {
   laser_sub_ = create_subscription<sensor_msgs::msg::LaserScan>(
-    "scan_raw", rclcpp::QoS(1).reliable(),
+    "scan_filtered", rclcpp::QoS(1).reliable(),
     std::bind(&SensingNode::callback, this, _1));
 
   pub_ = create_publisher<follow_wall_interfaces::msg::LaserInfo>(
@@ -55,10 +55,10 @@ void SensingNode::callback(
 {
   // the equation is angle_min + angle_increment * index = angle_to_measure
   RCLCPP_INFO(this->get_logger(), "Got msg\n");
-  int index_front = (0 - msg->angle_min) / msg->angle_increment;
+  int index_front = (M_PI - msg->angle_min) / msg->angle_increment;
   int index_right = (-M_PI_2 - msg->angle_min) / msg->angle_increment;
   int index_front_right =
-    (-M_PI_4 - msg->angle_min) / msg->angle_increment;
+    (-(M_PI_2 + M_PI_4) - msg->angle_min) / msg->angle_increment;
 
   // with a blue, green and red line.
 
