@@ -22,7 +22,7 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 
-#define SAFE_DISTANCE 0.4
+#define SAFE_DISTANCE 1.0
 #define INTERVAL 0.05
 #define FOLLOWING_LINEAR_VEL 0.5  // linear velocity when following the wall.
 #define TURNING_LINEAR_VEL 0.1  // linear velocity when turning a corner.
