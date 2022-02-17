@@ -39,3 +39,10 @@ You can find the full lenght videos in [this link](https://urjc-my.sharepoint.co
 ### Initial conditions: No wall near
 ![no-wall-vid](./no_wall_init.gif)
 
+### Testing the algorithm in real life with the Kobuki robot
+
+The code can be found in the branch `kobuki_irl`
+
+
+![kobuki_irl](./kobuki_irl_test_480p.gif)
+
